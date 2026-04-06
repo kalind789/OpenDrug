@@ -9,8 +9,12 @@
 ---
  
 ## 📌 Overview
- 
+
+**This is not Medical Advice**
+
 MedQuery AI is a conversational drug information assistant that allows users to ask natural language questions about medications and receive accurate, plain-English answers sourced directly from the FDA's drug label database. The system intelligently classifies user questions to fetch only the relevant data fields, minimizing API costs while maximizing response quality.
+
+Currently I am creating an MVP with limited fields to see how if the idea is feasible and to measure the cost of implementing this across all drugs and all information about the drug. 
  
 **Example queries the system can handle:**
 - *"What is metformin used for?"*
@@ -38,7 +42,7 @@ User Question
  
 | Mode | Trigger | Fields Fetched | Cost |
 |------|---------|----------------|------|
-| **General Inquiry** | "Tell me about X" | All 4 MVP fields | Moderate |
+| **General Inquiry** | "Tell me about X" | All MVP fields | Moderate |
 | **Specific Query** | "What are the risks of X?" | Targeted fields only | Low |
  
 ---
@@ -63,7 +67,7 @@ User Question
   ]
   ```
 - Converted DataFrame rows into clean, structured strings for LLM consumption
-- Reduced raw data from ~75,000 characters to ~6,000 characters through targeted field selection
+- Reduced raw data from ~75,000 characters to ~20,000 characters through targeted field selection
  
 ### 3. Question Classification System
 - Built a Claude-powered classifier using a structured system prompt
