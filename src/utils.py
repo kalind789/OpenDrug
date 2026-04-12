@@ -1,4 +1,16 @@
-MVP_COLUMNS = ['indications_and_usage', 'warnings_and_cautions', 'adverse_reactions', 'pregnancy']
+MVP_COLUMNS = [
+    'indications_and_usage',
+    'warnings_and_cautions',
+    'warnings',
+    'adverse_reactions',
+    'drug_interactions',
+    'pregnancy',
+    'pregnancy_or_breast_feeding',
+    'use_in_specific_populations',
+    'boxed_warning',
+    'ask_doctor',
+    'ask_doctor_or_pharmacist',
+]
 
 SYSTEM_PROMPT = """
 You are a drug information assistant powered by FDA data.
