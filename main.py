@@ -1,5 +1,6 @@
 import streamlit as st
 from src.agent import run_agent
+from src.utils import TOP_DRUGS
 
 # Page config
 st.set_page_config(
@@ -10,6 +11,12 @@ st.set_page_config(
 
 st.title("💊 MedQuery AI")
 st.caption("Drug information powered by FDA data")
+
+with st.sidebar:
+    st.header("Available Drugs")
+    st.caption("Detailed summaries are available for these 15 drugs. You can still ask specific questions about other medications.")
+    for drug in TOP_DRUGS:
+        st.markdown(f"- {drug.title()}")
 
 # Initialize chat history
 if "messages" not in st.session_state:

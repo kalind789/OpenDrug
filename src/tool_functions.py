@@ -1,5 +1,7 @@
+import sqlite3
 import requests
 import pandas as pd
+from src.utils import DB_PATH
 
 
 CLINICAL_FIELDS = [
@@ -39,4 +41,19 @@ def fda_api_call(drug_name):
     return drug_string
 
 def check_cache(drug_name):
-    return f"General information about {drug_name} is not yet available. Please ask a specific question such as its side effects, drug interactions, warnings, or pregnancy safety."
+    try:
+        conn = sqlite3.connect(DB_PATH)
+        row = conn.execute(
+            "SELECT summary FROM drug_summaries WHERE drug_name = ?",
+            (drug_name.lower(),)
+        ).fetchone()
+        conn.close()
+        if row:
+            return row[0]
+    except Exception:
+        pass
+    return (
+        f"General information about {drug_name} is not available in our database. "
+        "Please ask a specific question such as its side effects, drug interactions, "
+        "warnings, or pregnancy safety."
+    )

@@ -1,3 +1,25 @@
+import os
+
+DB_PATH = os.path.join(os.path.dirname(__file__), '..', 'drug_cache.db')
+
+TOP_DRUGS = [
+    'lisinopril',
+    'atorvastatin',
+    'levothyroxine',
+    'metformin',
+    'amlodipine',
+    'metoprolol',
+    'omeprazole',
+    'losartan',
+    'albuterol',
+    'gabapentin',
+    'sertraline',
+    'amoxicillin',
+    'acetaminophen',
+    'hydrochlorothiazide',
+    'simvastatin',
+]
+
 SYSTEM_PROMPT = """
 You are a drug information assistant powered by FDA data.
 

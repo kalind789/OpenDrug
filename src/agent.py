@@ -33,7 +33,7 @@ def run_agent(user_query: str) -> str:
         tools=tools,
         messages=messages
     )
-    
+
     while response.stop_reason == "tool_use":
         tool_results = []
 
