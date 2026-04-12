@@ -35,35 +35,38 @@ def run_agent(user_query: str) -> str:
     )
     
     while response.stop_reason == "tool_use":
-        # Find which tool was called
-        tool_call = next(block for block in response.content if block.type == "tool_use")
+        tool_results = []
 
-        # Run the function with the tool
-        if tool_call.name == "check_cache":
-            tool_result = check_cache(
-                drug_name=tool_call.input["drug_name"]
-            )
+        for tool_call in response.content:
+            if tool_call.type != "tool_use":
+                continue
 
-        elif tool_call.name == "fda_api_call":
-            requested_fields = tool_call.input.get("fields", MVP_COLUMNS)
-            fields = [f for f in requested_fields if f in MVP_COLUMNS]
-            if not fields:
-                tool_result = "Sorry, that information is not yet available in this version of the app."
-            else:
-                tool_result = fda_api_call(
-                    drug_name=tool_call.input["drug_name"],
-                    fields=fields
+            if tool_call.name == "check_cache":
+                tool_result = check_cache(
+                    drug_name=tool_call.input["drug_name"]
                 )
 
-        # Claude response + tool result to message history
-        messages += [
-            {"role": "assistant", "content": response.content},
-            {"role": "user", "content": [{
+            elif tool_call.name == "fda_api_call":
+                requested_fields = tool_call.input.get("fields", MVP_COLUMNS)
+                fields = [f for f in requested_fields if f in MVP_COLUMNS]
+                if not fields:
+                    tool_result = "Sorry, that information is not yet available in this version of the app."
+                else:
+                    tool_result = fda_api_call(
+                        drug_name=tool_call.input["drug_name"],
+                        fields=fields
+                    )
+
+            tool_results.append({
                 "type": "tool_result",
                 "tool_use_id": tool_call.id,
                 "content": tool_result
-            }]
-            },
+            })
+
+        # Claude response + all tool results to message history
+        messages += [
+            {"role": "assistant", "content": response.content},
+            {"role": "user", "content": tool_results},
         ]
 
         # Claude reads the FDA data and writes final answer
