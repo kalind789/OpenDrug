@@ -6,14 +6,20 @@ import os
 from dotenv import load_dotenv
 import streamlit as st
 
-load_dotenv()
 
-if st.secrets["ANTHROPIC_API_KEY"]:
-    client = Anthropic(api_key=st.secrets["ANTHROPIC_API_KEY"])
-else:
-    client = Anthropic(
-        api_key=os.environ.get("ANTHROPIC_API_KEY")
-    )
+import os
+import streamlit as st
+from anthropic import Anthropic
+
+# Works both locally and on Streamlit Cloud
+try:
+    api_key = st.secrets["ANTHROPIC_API_KEY"]
+except:
+    from dotenv import load_dotenv
+    load_dotenv()
+    api_key = os.environ.get("ANTHROPIC_API_KEY")
+
+client = Anthropic(api_key=api_key)
 
 def run_agent(user_query: str) -> str:
     """ Runs the agent with the given question and returns the response. """
