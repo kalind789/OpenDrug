@@ -12,7 +12,10 @@ def fda_api_call(drug_name, fields):
     
     # Else, process the response and return the relevant fields
     data = pd.DataFrame(response.json()['results'])
-    needed_data = data[fields]
+    available_fields = [f for f in fields if f in data.columns]
+    if not available_fields:
+        return "The requested information is not available for this drug in the FDA database."
+    needed_data = data[available_fields]
     needed_list = needed_data.values.tolist()
     drug_string = "\n".join([str(item) for item in needed_list])
 
