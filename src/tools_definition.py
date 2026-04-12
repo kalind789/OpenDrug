@@ -1,21 +1,14 @@
 tools = [
     {
         "name": "fda_api_call",
-        "description": "Get FDA drug information given the drug name and fields",
+        "description": "Get clinical FDA label information for a drug, including warnings, side effects, drug interactions, pregnancy safety, and indications.",
         "input_schema": {
             "type": "object",
             "properties": {
                 "drug_name": {
                     "type": "string",
-                    "description": "The name of the drug to look up.",
+                    "description": "The generic name of the drug to look up.",
                 },
-                "fields": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    },
-                    "description": "The fields to retrieve from the FDA API."
-                }
             },
             "required": ["drug_name"],
         },

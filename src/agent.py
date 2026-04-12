@@ -1,6 +1,6 @@
 from anthropic import Anthropic
 from src.tool_functions import fda_api_call, check_cache
-from src.utils import MVP_COLUMNS, SYSTEM_PROMPT
+from src.utils import SYSTEM_PROMPT
 from src.tools_definition import tools
 import os
 from dotenv import load_dotenv
@@ -47,15 +47,9 @@ def run_agent(user_query: str) -> str:
                 )
 
             elif tool_call.name == "fda_api_call":
-                requested_fields = tool_call.input.get("fields", MVP_COLUMNS)
-                fields = [f for f in requested_fields if f in MVP_COLUMNS]
-                if not fields:
-                    tool_result = "Sorry, that information is not yet available in this version of the app."
-                else:
-                    tool_result = fda_api_call(
-                        drug_name=tool_call.input["drug_name"],
-                        fields=fields
-                    )
+                tool_result = fda_api_call(
+                    drug_name=tool_call.input["drug_name"]
+                )
 
             tool_results.append({
                 "type": "tool_result",
