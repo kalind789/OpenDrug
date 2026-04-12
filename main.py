@@ -17,6 +17,7 @@ with st.sidebar:
     st.caption("Detailed summaries are available for these 15 drugs. You can still ask specific questions about other medications.")
     for drug in TOP_DRUGS:
         st.markdown(f"- {drug.title()}")
+    st.warning("This app is not a substitute for professional medical advice. Always consult your doctor or pharmacist.")
 
 # Initialize chat history
 if "messages" not in st.session_state:
