@@ -1,2 +1,5 @@
 claude_key
 .env
+__pycache__/
+*.pyc
+.DS_Store
