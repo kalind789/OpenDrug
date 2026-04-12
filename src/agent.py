@@ -4,11 +4,16 @@ from src.utils import MVP_COLUMNS, SYSTEM_PROMPT
 from src.tools_definition import tools
 import os
 from dotenv import load_dotenv
+import streamlit as st
 
 load_dotenv()
-client = Anthropic(
-    api_key=os.environ.get("ANTHROPIC_API_KEY")
-)
+
+if st.secrets["ANTHROPIC_API_KEY"]:
+    client = Anthropic(api_key=st.secrets["ANTHROPIC_API_KEY"])
+else:
+    client = Anthropic(
+        api_key=os.environ.get("ANTHROPIC_API_KEY")
+    )
 
 def run_agent(user_query: str) -> str:
     """ Runs the agent with the given question and returns the response. """
